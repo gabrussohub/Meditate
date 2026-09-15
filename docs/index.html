@@ -23,7 +23,6 @@
   </div>
   <div class="header-btns">
     <button id="btnTheme" class="icon-circle" title="Alternar claro/escuro">☾</button>
-    <button id="btnAddTop" class="btn-gold" title="Adicionar novo áudio">＋</button>
   </div>
 </header>
 
@@ -39,9 +38,8 @@
   <section id="list" class="list"></section>
 
   <section class="how">
-    <h2>＋ Como adicionar novos áudios</h2>
-    <p><b>Jeito 1 (neste aparelho, sem programar):</b> toque no botão dourado <b>＋</b> → escolha o mp3/m4a → dê um título. Fica salvo no aparelho.</p>
-    <p><b>Jeito 2 (para todos, no GitHub):</b> suba o arquivo em <code>docs/audio/</code> e adicione 1 linha em <code>docs/meditations.json</code>. Pronto — aparece para todo mundo.</p>
+    <h2>Como adicionar novos áudios</h2>
+    <p>Novos áudios entram pelo GitHub: o arquivo vai para <code>docs/audio/</code> e ganha 1 linha em <code>docs/meditations.json</code>. Pronto — aparece para todo mundo.</p>
   </section>
 </main>
 
@@ -82,21 +80,6 @@
   </div>
 </div>
 
-<!-- Modal adicionar -->
-<div id="addModal" class="sheet hidden">
-  <div class="sheet-card">
-    <h2>Adicionar meditação</h2>
-    <p class="sub">Escolha um áudio do celular e dê um título carinhoso.</p>
-    <input id="addTitle" type="text" placeholder="Título (ex: Gratidão da noite)" />
-    <input id="addFile" type="file" accept="audio/*,.m4a,.mp3,.wav,.ogg" />
-    <div class="row gap">
-      <button id="addCancel" class="ghost">Cancelar</button>
-      <button id="addSave" class="btn-gold">Salvar</button>
-    </div>
-  </div>
-</div>
-
-<input id="fileHidden" type="file" accept="audio/*,.m4a,.mp3,.wav,.ogg" class="hidden" />
 <audio id="audio" preload="metadata"></audio>
 
 <script src="app.js"></script>

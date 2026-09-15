@@ -1,6 +1,5 @@
 // Meditação — web app (GitHub Pages + PWA)
 // Como adicionar áudios novos (para todos): suba em docs/audio/ + 1 linha em meditations.json.
-// Adição local (só neste aparelho): botão ＋ (salva em localStorage + IndexedDB).
 
 const $ = (id) => document.getElementById(id);
 const audio = $("audio");
@@ -9,46 +8,10 @@ const COVERS = ["♡", "〜", "◍", "✦", "❀", "☾"];
 const store = {
   get lastId() { return localStorage.getItem("sonia:last"); },
   set lastId(v) { v ? localStorage.setItem("sonia:last", v) : localStorage.removeItem("sonia:last"); },
-  get custom() { try { return JSON.parse(localStorage.getItem("sonia:custom") || "[]"); } catch { return []; } },
-  set custom(v) { localStorage.setItem("sonia:custom", JSON.stringify(v)); },
 };
 
-// IndexedDB simples para guardar os blobs dos áudios adicionados no aparelho
-const idb = {
-  db: null,
-  open() {
-    return new Promise((res, rej) => {
-      const r = indexedDB.open("sonia-med", 1);
-      r.onupgradeneeded = () => r.result.createObjectStore("audios");
-      r.onsuccess = () => { idb.db = r.result; res(); };
-      r.onerror = () => rej(r.error);
-    });
-  },
-  put(id, blob) {
-    return new Promise((res, rej) => {
-      const tx = idb.db.transaction("audios", "readwrite").objectStore("audios").put(blob, id);
-      tx.onsuccess = res; tx.onerror = () => rej(tx.error);
-    });
-  },
-  get(id) {
-    return new Promise((res, rej) => {
-      const tx = idb.db.transaction("audios").objectStore("audios").get(id);
-      tx.onsuccess = () => res(tx.result); tx.onerror = () => rej(tx.error);
-    });
-  },
-  del(id) {
-    return new Promise((res) => {
-      try {
-        const tx = idb.db.transaction("audios", "readwrite").objectStore("audios").delete(id);
-        tx.onsuccess = res; tx.onerror = res;
-      } catch { res(); }
-    });
-  },
-};
-
-let BUNDLED = [], CUSTOM = store.custom, ALL = [];
+let BUNDLED = [], ALL = [];
 let current = null, speed = 1, sleepTimer = null, sleepLeft = null;
-const objUrls = {};
 
 const fmt = (s) => {
   if (!isFinite(s) || s < 0) return "0:00";
@@ -70,19 +33,14 @@ function applyTheme(t) {
 
 async function init() {
   applyTheme(theme());
-  try { await idb.open(); } catch {}
   try {
     const r = await fetch("meditations.json", { cache: "no-store" });
     BUNDLED = await r.json();
   } catch { BUNDLED = []; }
-  // resolve URLs dos customs
-  for (const m of CUSTOM) {
-    try {
-      const blob = await idb.get(m.id);
-      if (blob) { objUrls[m.id] = URL.createObjectURL(blob); m._url = objUrls[m.id]; }
-    } catch {}
-  }
-  ALL = [...BUNDLED, ...CUSTOM];
+  // limpa restos da antiga adição local (recurso removido)
+  try { localStorage.removeItem("sonia:custom"); } catch {}
+  try { indexedDB.deleteDatabase("sonia-med"); } catch {}
+  ALL = [...BUNDLED];
   buildSpeeds(); buildTimerOpts(); bindUI();
   render();
   if (store.lastId) {
@@ -99,7 +57,7 @@ async function init() {
   }
 }
 
-function urlOf(m) { return m._url || m.file; }
+function urlOf(m) { return m.file; }
 
 function visible() {
   return ALL;
@@ -120,12 +78,12 @@ function render() {
   // aviso se faltar arquivo
   const missing = BUNDLED.length === 0;
   $("missingHint").classList.toggle("hidden", !missing);
-  if (missing) $("missingHint").textContent = "⚠️ Nenhum áudio encontrado. Suba os mp3/m4a em docs/audio/. Ou toque em ＋ para adicionar do aparelho.";
+  if (missing) $("missingHint").textContent = "⚠️ Nenhum áudio encontrado. Confira se os arquivos foram enviados para docs/audio/ no GitHub.";
 
   const el = $("list");
   el.innerHTML = "";
   if (!list.length) {
-    el.innerHTML = `<p class="sub">Nada por aqui. Toque em ＋ para adicionar sua primeira meditação. 🌙</p>`;
+    el.innerHTML = `<p class="sub">Nada por aqui ainda. 🌙</p>`;
     return;
   }
   for (const m of list) {
@@ -136,17 +94,10 @@ function render() {
       <div class="cover md g${(m.gradient || 0) % 6}">${COVERS[(m.gradient || 0) % 6]}</div>
       <div class="meta">
         <strong>${esc(m.title)}</strong>
-        ${m.isCustom ? `<span class="mine">• adicionada por você</span>` : ``}
         ${isCur && !audio.paused ? `<span class="now">● tocando agora</span>` : ``}
       </div>
-      ${m.isCustom ? `<button class="iconbtn" title="Apagar">🗑</button>` : `<button class="iconbtn" title="Ouvir">▶</button>`}`;
-    const actBtn = card.querySelector(".iconbtn");
+      <button class="iconbtn" title="Ouvir">▶</button>`;
     card.onclick = () => load(m, true);
-    actBtn.onclick = (e) => {
-      e.stopPropagation();
-      if (m.isCustom && actBtn.textContent === "🗑") delCustom(m);
-      else load(m, true);
-    };
     el.appendChild(card);
   }
 }
@@ -255,33 +206,6 @@ function bindUI() {
     render();
   };
   audio.onended = () => step(1);
-
-  // adicionar
-  const openAdd = () => { $("addModal").classList.remove("hidden"); };
-  $("btnAddTop").onclick = openAdd;
-  $("addCancel").onclick = () => $("addModal").classList.add("hidden");
-  $("addSave").onclick = async () => {
-    const f = $("addFile").files[0];
-    const title = $("addTitle").value.trim() || (f ? f.name.replace(/\.[^.]+$/, "") : "Nova meditação");
-    if (!f) { alert("Escolha um arquivo de áudio primeiro 🎧"); return; }
-    const m = { id: "custom-" + Date.now(), title, description: "Adicionada por você.", gradient: Math.floor(Math.random() * 6), isCustom: true };
-    try { await idb.put(m.id, f); } catch { alert("Não consegui salvar neste navegador."); return; }
-    m._url = URL.createObjectURL(f);
-    CUSTOM.push(m); store.custom = CUSTOM; ALL = [...BUNDLED, ...CUSTOM];
-    $("addFile").value = ""; $("addTitle").value = "";
-    $("addModal").classList.add("hidden");
-    render(); load(m, true); openSheet();
-  };
-}
-
-async function delCustom(m) {
-  if (!confirm(`Apagar "${m.title}"?`)) return;
-  if (current && current.id === m.id) audio.pause();
-  await idb.del(m.id);
-  CUSTOM = CUSTOM.filter((x) => x.id !== m.id);
-  store.custom = CUSTOM; ALL = [...BUNDLED, ...CUSTOM];
-  if (current && current.id === m.id) { current = null; $("mini").classList.add("hidden"); $("sheet").classList.add("hidden"); }
-  render();
 }
 
 function toggle() {

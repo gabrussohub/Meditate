@@ -42,7 +42,6 @@ main{max-width:720px; margin:0 auto; padding:0 20px}
 .card .meta{flex:1; min-width:0}
 .card .meta strong{display:block; font-size:16px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
 .card .meta span{color:var(--soft); font-size:13px}
-.card .meta .mine{color:var(--gold); font-size:11px}
 .card .meta .now{color:var(--gold); font-size:11px}
 .iconbtn{background:none; border:none; font-size:20px; cursor:pointer; color:var(--soft); padding:6px}
 .cover{display:flex; align-items:center; justify-content:center; border-radius:18px; color:#fff; font-size:26px; flex-shrink:0}
@@ -103,11 +102,8 @@ main{max-width:720px; margin:0 auto; padding:0 20px}
 .btn-gold{background:var(--gold); color:#fff; border:none; font-weight:800; padding:12px 22px; border-radius:999px; cursor:pointer; font-size:16px}
 .header-btns{display:flex; gap:10px; align-items:center}
 .icon-circle{width:52px; height:52px; border-radius:50%; border:1px solid var(--line); background:transparent; color:var(--text); font-size:22px; cursor:pointer; line-height:1}
-#btnAddTop{width:52px; height:52px; border-radius:50%; font-size:26px; padding:0}
 .sleep{color:var(--gold); font-size:13px}
 .desc{color:var(--soft); font-size:13px}
-#addTitle{width:100%; padding:12px; border-radius:12px; border:1px solid var(--line); background:var(--card); color:var(--text); margin:8px 0}
-#addFile{width:100%; margin:8px 0 14px; color:var(--soft)}
 @media(min-width:640px){ .sheet{align-items:center} .sheet-card{border-radius:26px} }
 
 /* dark mode — paleta espresso/champanhe */
@@ -146,4 +142,3 @@ html[data-theme="dark"] .controls button{color:#fff}
 html[data-theme="dark"] .speeds button, html[data-theme="dark"] .ghost{background:#ffffff12; border-color:#ffffff18}
 html[data-theme="dark"] .speeds button.on{color:#221c10}
 html[data-theme="dark"] .btn-gold{color:#221c10; border-radius:14px}
-html[data-theme="dark"] #addTitle{background:#ffffff0d; border-color:#ffffff22}
