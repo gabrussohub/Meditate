@@ -1,5 +1,5 @@
 /* Cache do app (shell). Áudios grandes ficam em cache sob demanda. */
-const CACHE = "sonia-med-v5";
+const CACHE = "sonia-med-v6";
 const SHELL = ["./", "index.html", "styles.css", "app.js", "meditations.json", "manifest.webmanifest", "icon.svg"];
 
 self.addEventListener("install", (e) => {

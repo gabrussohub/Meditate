@@ -100,7 +100,7 @@ function render() {
   if (ALL.length) {
     const pick = ALL[Math.floor(Date.now() / 86400000) % ALL.length];
     feat.classList.remove("hidden");
-    feat.innerHTML = `<small>✨ DESTAQUE DE HOJE</small><h2>${esc(pick.title)}</h2><p>${esc(pick.subtitle || "")}</p><span class="cta">▶ Ouvir agora</span>`;
+    feat.innerHTML = `<small>✨ DESTAQUE DE HOJE</small><h2>${esc(pick.title)}</h2><span class="cta">▶ Ouvir agora</span>`;
     feat.onclick = () => { load(pick, true); openSheet(); };
   } else feat.classList.add("hidden");
 
@@ -123,7 +123,6 @@ function render() {
       <div class="cover md g${(m.gradient || 0) % 6}">${COVERS[(m.gradient || 0) % 6]}</div>
       <div class="meta">
         <strong>${esc(m.title)}</strong>
-        <span>${esc(m.subtitle || "Meditação guiada")}</span><br>
         ${m.isCustom ? `<span class="mine">• adicionada por você</span>` : ``}
         ${isCur && !audio.paused ? `<span class="now">● tocando agora</span>` : ``}
       </div>
@@ -154,10 +153,9 @@ function load(m, autoplay) {
   $("bigCover").className = `cover xl g${(m.gradient || 0) % 6}`;
   $("bigCover").textContent = COVERS[(m.gradient || 0) % 6];
   $("pTitle").textContent = m.title;
-  $("pSub").textContent = m.subtitle || "Meditação guiada";
   $("pDesc").textContent = m.description || "";
   if ("mediaSession" in navigator) {
-    try { navigator.mediaSession.metadata = new MediaMetadata({ title: m.title, artist: m.subtitle || "Meditação", album: "Meditação" }); } catch {}
+    try { navigator.mediaSession.metadata = new MediaMetadata({ title: m.title, artist: "Meditação", album: "Meditação" }); } catch {}
   }
   audio.onerror = () => {
     $("missingHint").classList.remove("hidden");
@@ -252,7 +250,7 @@ function bindUI() {
     const f = $("addFile").files[0];
     const title = $("addTitle").value.trim() || (f ? f.name.replace(/\.[^.]+$/, "") : "Nova meditação");
     if (!f) { alert("Escolha um arquivo de áudio primeiro 🎧"); return; }
-    const m = { id: "custom-" + Date.now(), title, subtitle: "Minha meditação", description: "Adicionada por você.", gradient: Math.floor(Math.random() * 6), isCustom: true };
+    const m = { id: "custom-" + Date.now(), title, description: "Adicionada por você.", gradient: Math.floor(Math.random() * 6), isCustom: true };
     try { await idb.put(m.id, f); } catch { alert("Não consegui salvar neste navegador."); return; }
     m._url = URL.createObjectURL(f);
     CUSTOM.push(m); store.custom = CUSTOM; ALL = [...BUNDLED, ...CUSTOM];
