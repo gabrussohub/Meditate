@@ -7,8 +7,6 @@ const audio = $("audio");
 const COVERS = ["☾", "❀", "✦", "♡", "◍", "〜"];
 
 const store = {
-  get favs() { try { return new Set(JSON.parse(localStorage.getItem("sonia:favs") || "[]")); } catch { return new Set(); } },
-  set favs(s) { localStorage.setItem("sonia:favs", JSON.stringify([...s])); },
   get lastId() { return localStorage.getItem("sonia:last"); },
   set lastId(v) { v ? localStorage.setItem("sonia:last", v) : localStorage.removeItem("sonia:last"); },
   get custom() { try { return JSON.parse(localStorage.getItem("sonia:custom") || "[]"); } catch { return []; } },
@@ -49,8 +47,6 @@ const idb = {
 };
 
 let BUNDLED = [], CUSTOM = store.custom, ALL = [];
-let favs = store.favs;
-let favOnly = false, query = "";
 let current = null, speed = 1, sleepTimer = null, sleepLeft = null;
 const objUrls = {};
 
@@ -93,13 +89,7 @@ async function init() {
 function urlOf(m) { return m._url || m.file; }
 
 function visible() {
-  let out = ALL;
-  if (favOnly) out = out.filter((m) => favs.has(m.id));
-  if (query.trim()) {
-    const q = query.toLowerCase();
-    out = out.filter((m) => (m.title + " " + (m.subtitle || "")).toLowerCase().includes(q));
-  }
-  return out;
+  return ALL;
 }
 
 function render() {
@@ -107,7 +97,7 @@ function render() {
   $("count").textContent = `${list.length} áudio(s)`;
   // destaque do dia
   const feat = $("featured");
-  if (ALL.length && !query && !favOnly) {
+  if (ALL.length) {
     const pick = ALL[Math.floor(Date.now() / 86400000) % ALL.length];
     feat.classList.remove("hidden");
     feat.innerHTML = `<small>✨ DESTAQUE DE HOJE</small><h2>${esc(pick.title)}</h2><p>${esc(pick.subtitle || "")}</p><span class="cta">▶ Ouvir agora</span>`;
@@ -126,7 +116,6 @@ function render() {
     return;
   }
   for (const m of list) {
-    const isFav = favs.has(m.id);
     const isCur = current && current.id === m.id;
     const card = document.createElement("div");
     card.className = "card" + (isCur ? " playing" : "");
@@ -138,13 +127,11 @@ function render() {
         ${m.isCustom ? `<span class="mine">• adicionada por você</span>` : ``}
         ${isCur && !audio.paused ? `<span class="now">● tocando agora</span>` : ``}
       </div>
-      <button class="iconbtn ${isFav ? "fav-on" : ""}" title="Favoritar">${isFav ? "♥" : "♡"}</button>
       ${m.isCustom ? `<button class="iconbtn" title="Apagar">🗑</button>` : `<button class="iconbtn" title="Ouvir">▶</button>`}`;
-    const [favBtn, actBtn] = card.querySelectorAll(".iconbtn");
-    // atenção: quando não é custom, querySelectorAll retorna [fav, play]; quando custom, [fav, del]
-    card.onclick = (e) => { if (e.target === favBtn || e.target === actBtn) return; load(m, true); };
-    favBtn.onclick = () => toggleFav(m.id);
-    actBtn.onclick = () => {
+    const actBtn = card.querySelector(".iconbtn");
+    card.onclick = () => load(m, true);
+    actBtn.onclick = (e) => {
+      e.stopPropagation();
       if (m.isCustom && actBtn.textContent === "🗑") delCustom(m);
       else load(m, true);
     };
@@ -169,7 +156,6 @@ function load(m, autoplay) {
   $("pTitle").textContent = m.title;
   $("pSub").textContent = m.subtitle || "Sônia Meditação";
   $("pDesc").textContent = m.description || "";
-  updFavBtn();
   if ("mediaSession" in navigator) {
     try { navigator.mediaSession.metadata = new MediaMetadata({ title: m.title, artist: m.subtitle || "Sônia Meditação", album: "Sônia Meditação" }); } catch {}
   }
@@ -187,16 +173,6 @@ function step(dir) {
   const i = list.findIndex((m) => m.id === current.id);
   const n = list[(i + dir + list.length) % list.length];
   if (n) load(n, true);
-}
-
-function toggleFav(id) {
-  favs.has(id) ? favs.delete(id) : favs.add(id);
-  store.favs = favs; updFavBtn(); render();
-}
-function updFavBtn() {
-  if (!current) return;
-  const on = favs.has(current.id);
-  $("btnFav").textContent = on ? "♥ Favoritada" : "♡ Favoritar";
 }
 
 // ---- player UI ----
@@ -240,9 +216,6 @@ function updSleep() {
 
 function openSheet() { if (current) $("sheet").classList.remove("hidden"); }
 function bindUI() {
-  $("search").oninput = (e) => { query = e.target.value; render(); };
-  $("chipAll").onclick = () => { favOnly = false; $("chipAll").classList.add("active"); $("chipFav").classList.remove("active"); render(); };
-  $("chipFav").onclick = () => { favOnly = true; $("chipFav").classList.add("active"); $("chipAll").classList.remove("active"); render(); };
   $("miniToggle").onclick = () => toggle();
   $("miniOpen").onclick = openSheet;
   $("sheetClose").onclick = () => $("sheet").classList.add("hidden");
@@ -251,7 +224,6 @@ function bindUI() {
   $("btnPrev").onclick = () => step(-1);
   $("btnFwd").onclick = () => { audio.currentTime += 10; };
   $("btnBack").onclick = () => { audio.currentTime = Math.max(0, audio.currentTime - 10); };
-  $("btnFav").onclick = () => current && toggleFav(current.id);
   $("btnTimer").onclick = () => $("timerOpts").classList.toggle("hidden");
   $("sleepLabel").onclick = () => { clearInterval(sleepTimer); sleepTimer = null; sleepLeft = null; updSleep(); };
   $("seek").oninput = (e) => { if (audio.duration) audio.currentTime = (e.target.value / 1000) * audio.duration; };
