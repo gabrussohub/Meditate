@@ -65,7 +65,7 @@ function applyTheme(t) {
   const b = $("btnTheme");
   if (b) b.textContent = dark ? "☀" : "☾";
   const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.setAttribute("content", dark ? "#16130e" : "#fff1e5");
+  if (meta) meta.setAttribute("content", dark ? "#121127" : "#fff1e5");
 }
 
 async function init() {
