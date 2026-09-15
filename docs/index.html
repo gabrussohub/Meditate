@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Sônia Meditação 🌙</title>
+<meta name="description" content="Suas meditações favoritas, num toque. App da Sônia." />
+<meta name="theme-color" content="#121127" />
+<link rel="icon" href="icon.svg" type="image/svg+xml" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="apple-touch-icon" href="icon.svg" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="bg-glow"></div>
+
+<header class="top">
+  <div>
+    <p class="eyebrow">Boa hora para respirar 🌙</p>
+    <h1>Olá, Sônia ✨</h1>
+    <p class="sub">Suas meditações favoritas, num toque.</p>
+  </div>
+  <button id="btnAddTop" class="btn-gold" title="Adicionar novo áudio">＋</button>
+</header>
+
+<main>
+  <div class="search-row">
+    <input id="search" type="search" placeholder="Buscar meditação…" autocomplete="off" />
+  </div>
+  <div class="chips-row">
+    <button class="chip active" id="chipAll">Todas</button>
+    <button class="chip" id="chipFav">♥ Favoritas</button>
+    <span id="count" class="count"></span>
+  </div>
+
+  <section id="featured" class="featured hidden"></section>
+
+  <p id="missingHint" class="hint hidden"></p>
+
+  <section id="list" class="list"></section>
+
+  <section class="how">
+    <h2>＋ Como adicionar novos áudios</h2>
+    <p><b>Jeito 1 (neste aparelho, sem programar):</b> toque no botão dourado <b>＋</b> → escolha o mp3/m4a → dê um título. Fica salvo no aparelho.</p>
+    <p><b>Jeito 2 (para todos, no GitHub):</b> suba o arquivo em <code>docs/audio/</code> e adicione 1 linha em <code>docs/meditations.json</code>. Pronto — aparece para todo mundo.</p>
+  </section>
+</main>
+
+<!-- Mini player -->
+<div id="mini" class="mini hidden">
+  <div id="miniCover" class="cover xs g0">☾</div>
+  <div class="mini-info" id="miniOpen">
+    <strong id="miniTitle">—</strong>
+    <div class="track"><div id="miniProg" class="fill"></div></div>
+  </div>
+  <button id="miniToggle" class="play-fab sm">▶</button>
+</div>
+
+<!-- Player expandido -->
+<div id="sheet" class="sheet hidden">
+  <div class="sheet-card">
+    <button id="sheetClose" class="close">﹀</button>
+    <div id="bigCover" class="cover xl g0">☾</div>
+    <h2 id="pTitle">—</h2>
+    <p id="pSub" class="sub"></p>
+    <input id="seek" type="range" min="0" max="1000" value="0" />
+    <div class="times"><span id="tCur">0:00</span><span id="tDur">0:00</span></div>
+    <div class="controls">
+      <button id="btnPrev" title="Anterior">⏮</button>
+      <button id="btnBack" title="-10s">↺<small>10</small></button>
+      <button id="btnToggle" class="play-fab">▶</button>
+      <button id="btnFwd" title="+10s">↻<small>10</small></button>
+      <button id="btnNext" title="Próxima">⏭</button>
+    </div>
+    <div class="row">
+      <div class="speeds" id="speeds"></div>
+    </div>
+    <div class="row gap">
+      <button id="btnFav" class="ghost">♡ Favoritar</button>
+      <button id="btnTimer" class="ghost">⏱ Timer</button>
+    </div>
+    <div id="timerOpts" class="row gap hidden"></div>
+    <p id="sleepLabel" class="sleep hidden"></p>
+    <p id="pDesc" class="desc"></p>
+  </div>
+</div>
+
+<!-- Modal adicionar -->
+<div id="addModal" class="sheet hidden">
+  <div class="sheet-card">
+    <h2>Adicionar meditação</h2>
+    <p class="sub">Escolha um áudio do celular e dê um título carinhoso.</p>
+    <input id="addTitle" type="text" placeholder="Título (ex: Gratidão da noite)" />
+    <input id="addFile" type="file" accept="audio/*,.m4a,.mp3,.wav,.ogg" />
+    <div class="row gap">
+      <button id="addCancel" class="ghost">Cancelar</button>
+      <button id="addSave" class="btn-gold">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<input id="fileHidden" type="file" accept="audio/*,.m4a,.mp3,.wav,.ogg" class="hidden" />
+<audio id="audio" preload="metadata"></audio>
+
+<script src="app.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('service-worker.js').catch(()=>{}));
+}
+</script>
+</body>
+</html>

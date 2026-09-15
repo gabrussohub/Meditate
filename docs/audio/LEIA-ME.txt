@@ -1,0 +1,4 @@
+# Os áudios vão aqui.
+# Copie os arquivos AUD-*.mp3 / AUD-*.m4a para esta pasta
+# (ou rode ..\copiar-audios-web.bat).
+# Depois suba tudo para o GitHub — o app lê docs/meditations.json.

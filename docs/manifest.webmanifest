@@ -1,0 +1,14 @@
+{
+  "name": "Sônia Meditação",
+  "short_name": "Meditação",
+  "description": "Suas meditações favoritas, num toque.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#121127",
+  "theme_color": "#121127",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

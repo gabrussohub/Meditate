@@ -1,0 +1,12 @@
+[
+  { "id": "med-01", "title": "Acalmar a Mente", "subtitle": "Respiração • Recomeço", "description": "Uma meditação suave para desacelerar e voltar ao presente.", "file": "audio/AUD-20250415-WA0014.mp3", "gradient": 0 },
+  { "id": "med-02", "title": "Noite Tranquila", "subtitle": "Relaxamento profundo", "description": "Solte o dia e prepare o corpo para um sono leve.", "file": "audio/AUD-20250424-WA0024.m4a", "gradient": 1 },
+  { "id": "med-03", "title": "Gratidão da Manhã", "subtitle": "Comece o dia leve", "description": "Desperte com gratidão e intenção positiva.", "file": "audio/AUD-20250429-WA0022.mp3", "gradient": 2 },
+  { "id": "med-04", "title": "Paz Interior", "subtitle": "Coração sereno", "description": "Encontre um refúgio de calma dentro de você.", "file": "audio/AUD-20250708-WA0060.mp3", "gradient": 3 },
+  { "id": "med-05", "title": "Respirar e Sentir", "subtitle": "Atenção plena", "description": "Observe a respiração e acolha cada sensação.", "file": "audio/AUD-20250717-WA0006.mp3", "gradient": 4 },
+  { "id": "med-06", "title": "Leveza", "subtitle": "Soltar tensões", "description": "Alivie ombros, mente e coração.", "file": "audio/AUD-20250826-WA0022.mp3", "gradient": 5 },
+  { "id": "med-07", "title": "Presença", "subtitle": "Aqui e agora", "description": "Uma pausa curta para voltar ao momento presente.", "file": "audio/AUD-20251007-WA0045.mp3", "gradient": 0 },
+  { "id": "med-08", "title": "Descanso Profundo", "subtitle": "Entrega e sono", "description": "Ideal para ouvir deitada, antes de dormir.", "file": "audio/AUD-20251028-WA0052.m4a", "gradient": 1 },
+  { "id": "med-09", "title": "Coração Aberto", "subtitle": "Amor e compaixão", "description": "Cultive carinho por você e pelos outros.", "file": "audio/AUD-20260303-WA0090.m4a", "gradient": 2 },
+  { "id": "med-10", "title": "Clareza", "subtitle": "Mente leve", "description": "Limpe o ruído mental e reencontre o foco suave.", "file": "audio/AUD-20260602-WA0012.mp3", "gradient": 3 }
+]
