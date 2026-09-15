@@ -4,7 +4,7 @@
 
 const $ = (id) => document.getElementById(id);
 const audio = $("audio");
-const COVERS = ["☾", "❀", "✦", "♡", "◍", "〜"];
+const COVERS = ["♡", "〜", "◍", "✦", "❀", "☾"];
 
 const store = {
   get lastId() { return localStorage.getItem("sonia:last"); },
@@ -56,7 +56,20 @@ const fmt = (s) => {
   return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
 };
 
+function theme() { try { return localStorage.getItem("med:theme") || "light"; } catch { return "light"; } }
+function applyTheme(t) {
+  const dark = t === "dark";
+  if (dark) document.documentElement.dataset.theme = "dark";
+  else document.documentElement.removeAttribute("data-theme");
+  try { localStorage.setItem("med:theme", dark ? "dark" : "light"); } catch {}
+  const b = $("btnTheme");
+  if (b) b.textContent = dark ? "☀" : "☾";
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute("content", dark ? "#16130e" : "#fff1e5");
+}
+
 async function init() {
+  applyTheme(theme());
   try { await idb.open(); } catch {}
   try {
     const r = await fetch("meditations.json", { cache: "no-store" });
@@ -214,6 +227,7 @@ function updSleep() {
 
 function openSheet() { if (current) $("sheet").classList.remove("hidden"); }
 function bindUI() {
+  $("btnTheme").onclick = () => applyTheme(theme() === "dark" ? "light" : "dark");
   $("miniToggle").onclick = () => toggle();
   $("miniOpen").onclick = openSheet;
   $("sheetClose").onclick = () => $("sheet").classList.add("hidden");
