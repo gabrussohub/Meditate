@@ -1,7 +1,7 @@
 {
-  "name": "Sônia Meditação",
+  "name": "Meditação",
   "short_name": "Meditação",
-  "description": "Suas meditações favoritas, num toque.",
+  "description": "Suas meditações, num toque.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

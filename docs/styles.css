@@ -1,7 +1,6 @@
 :root{
-  --bg:#16130e; --card:#211d16; --card2:#2c271d;
-  --gold:#cbb68f; --gold-deep:#a68f66; --sage:#a3b899;
-  --text:#f4efe6; --soft:#b3a898;
+  --bg:#121127; --card:#1d1c38; --card2:#2a2748;
+  --gold:#d8c39d; --lilac:#b8a9e0; --text:#f5f1e8; --soft:#b9b4c9;
   --radius:20px;
 }
 *{box-sizing:border-box}
@@ -13,26 +12,24 @@ body{
 .bg-glow{
   position:fixed; inset:0; pointer-events:none; z-index:-1;
   background:
-    radial-gradient(600px 300px at 20% -5%, #a3b89922, transparent),
-    radial-gradient(500px 300px at 90% 10%, #cbb68f26, transparent),
-    radial-gradient(700px 500px at 50% 110%, #3a322622, transparent);
+    radial-gradient(600px 300px at 20% -5%, #6d5bd055, transparent),
+    radial-gradient(500px 300px at 90% 10%, #c08a4b33, transparent);
 }
-.top{display:flex; justify-content:space-between; align-items:flex-start; padding:32px 20px 6px; max-width:720px; margin:0 auto}
-.eyebrow{color:var(--gold); font-size:12px; margin:0; letter-spacing:2px; text-transform:uppercase; opacity:.9}
-h1{margin:6px 0; font-size:32px; font-family:Georgia,"Times New Roman",serif; font-weight:500; letter-spacing:.5px}
+.top{display:flex; justify-content:space-between; align-items:flex-start; padding:28px 20px 6px; max-width:720px; margin:0 auto}
+.eyebrow{color:var(--soft); font-size:14px; margin:0}
+h1{margin:4px 0; font-size:30px}
 .sub{color:var(--soft); font-size:14px; margin:4px 0 0}
 main{max-width:720px; margin:0 auto; padding:0 20px}
 .chips-row{display:flex; gap:8px; align-items:center; margin:14px 0 4px}
 .count{color:var(--soft); font-size:12px; letter-spacing:1px; text-transform:uppercase}
 .featured{
   border-radius:24px; padding:22px; margin:8px 0 6px; cursor:pointer;
-  background:linear-gradient(135deg,#3a3226,#211d16 55%,#5a4d36);
-  border:1px solid #cbb68f33;
+  background:linear-gradient(135deg,#6d5bd0,#2a1e63 55%,#c08a4b);
 }
-.featured small{letter-spacing:2px; opacity:.85; font-size:11px; font-weight:700; color:var(--gold)}
-.featured h2{margin:6px 0 2px; font-size:24px; font-family:Georgia,serif; font-weight:500}
+.featured small{letter-spacing:1px; opacity:.85; font-size:11px; font-weight:700}
+.featured h2{margin:6px 0 2px; font-size:24px}
 .featured p{margin:0 0 12px; opacity:.85}
-.featured .cta{display:inline-block; background:var(--gold); color:#221c10; font-weight:700; padding:9px 18px; border-radius:999px}
+.featured .cta{display:inline-block; background:var(--gold); color:#221c10; font-weight:800; padding:9px 18px; border-radius:999px}
 .list{display:flex; flex-direction:column; gap:12px; margin-top:8px}
 .card{
   display:flex; gap:12px; align-items:center; background:var(--card);
@@ -45,17 +42,17 @@ main{max-width:720px; margin:0 auto; padding:0 20px}
 .card .meta .mine{color:var(--gold); font-size:11px}
 .card .meta .now{color:var(--gold); font-size:11px}
 .iconbtn{background:none; border:none; font-size:20px; cursor:pointer; color:var(--soft); padding:6px}
-.cover{display:flex; align-items:center; justify-content:center; border-radius:18px; color:#f4efe6; font-size:26px; flex-shrink:0}
+.cover{display:flex; align-items:center; justify-content:center; border-radius:18px; color:#fff; font-size:26px; flex-shrink:0}
 .cover.xs{width:48px; height:48px}
 .cover.md{width:64px; height:64px; font-size:28px}
 .cover.xl{width:220px; height:220px; font-size:80px; border-radius:28px; margin:6px auto}
-.g0{background:linear-gradient(135deg,#4a4234,#2a251c)}
-.g1{background:linear-gradient(135deg,#5c6b58,#2e3a2c)}
-.g2{background:linear-gradient(135deg,#8a6b4f,#4a3525)}
-.g3{background:linear-gradient(135deg,#6b5a6e,#3a3040)}
-.g4{background:linear-gradient(135deg,#4f6b6b,#243a3a)}
-.g5{background:linear-gradient(135deg,#8c7a5b,#4a3f2c)}
-.hint{background:#2c271d; border:1px solid var(--gold); padding:12px 14px; border-radius:14px; font-size:13px; color:var(--gold)}
+.g0{background:linear-gradient(135deg,#6d5bd0,#2a1e63)}
+.g1{background:linear-gradient(135deg,#2e7d8a,#123a44)}
+.g2{background:linear-gradient(135deg,#c08a4b,#5a3418)}
+.g3{background:linear-gradient(135deg,#8a4b7c,#3e1b38)}
+.g4{background:linear-gradient(135deg,#4b8a6d,#173b2e)}
+.g5{background:linear-gradient(135deg,#4b6ac0,#1b2a5a)}
+.hint{background:#3a2b12; border:1px solid var(--gold); padding:12px 14px; border-radius:14px; font-size:13px; color:var(--gold)}
 .how{margin:26px 0; color:var(--soft); font-size:13px}
 .how h2{color:var(--text); font-size:16px}
 .how code{background:#ffffff14; padding:1px 6px; border-radius:6px}

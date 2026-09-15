@@ -1,4 +1,4 @@
-// Sônia Meditação — web app (GitHub Pages + PWA)
+// Meditação — web app (GitHub Pages + PWA)
 // Como adicionar áudios novos (para todos): suba em docs/audio/ + 1 linha em meditations.json.
 // Adição local (só neste aparelho): botão ＋ (salva em localStorage + IndexedDB).
 
@@ -107,7 +107,7 @@ function render() {
   // aviso se faltar arquivo
   const missing = BUNDLED.length === 0;
   $("missingHint").classList.toggle("hidden", !missing);
-  if (missing) $("missingHint").textContent = "⚠️ Nenhum áudio encontrado. Se você é a Sônia: suba os mp3/m4a em docs/audio/ (veja README). Ou toque em ＋ para adicionar do aparelho.";
+  if (missing) $("missingHint").textContent = "⚠️ Nenhum áudio encontrado. Suba os mp3/m4a em docs/audio/. Ou toque em ＋ para adicionar do aparelho.";
 
   const el = $("list");
   el.innerHTML = "";
@@ -154,10 +154,10 @@ function load(m, autoplay) {
   $("bigCover").className = `cover xl g${(m.gradient || 0) % 6}`;
   $("bigCover").textContent = COVERS[(m.gradient || 0) % 6];
   $("pTitle").textContent = m.title;
-  $("pSub").textContent = m.subtitle || "Sônia Meditação";
+  $("pSub").textContent = m.subtitle || "Meditação guiada";
   $("pDesc").textContent = m.description || "";
   if ("mediaSession" in navigator) {
-    try { navigator.mediaSession.metadata = new MediaMetadata({ title: m.title, artist: m.subtitle || "Sônia Meditação", album: "Sônia Meditação" }); } catch {}
+    try { navigator.mediaSession.metadata = new MediaMetadata({ title: m.title, artist: m.subtitle || "Meditação", album: "Meditação" }); } catch {}
   }
   audio.onerror = () => {
     $("missingHint").classList.remove("hidden");
