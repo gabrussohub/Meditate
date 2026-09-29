@@ -8,5 +8,6 @@
   { "id": "med-07", "title": "Acalmando a Negatividade", "description": "Uma pausa curta para voltar ao momento presente.", "file": "audio/AUD-20251007-WA0045.mp3", "gradient": 1 },
   { "id": "med-08", "title": "Padrão Dissolver", "description": "Ideal para ouvir deitada, antes de dormir.", "file": "audio/AUD-20251028-WA0052.m4a", "gradient": 5 },
   { "id": "med-09", "title": "Elemento Água", "description": "Cultive carinho por você e pelos outros.", "file": "audio/AUD-20260303-WA0090.m4a", "gradient": 1 },
-  { "id": "med-10", "title": "Equilibrar e Ativar o Corpo", "description": "Limpe o ruído mental e reencontre o foco suave.", "file": "audio/AUD-20260602-WA0012.mp3", "gradient": 2 }
+  { "id": "med-10", "title": "Equilibrar e Ativar o Corpo", "description": "Limpe o ruído mental e reencontre o foco suave.", "file": "audio/AUD-20260602-WA0012.mp3", "gradient": 2 },
+  { "id": "med-11", "title": "Insight Meditation", "description": "O que não quero mais", "file": "audio/InsightMeditacao-OQueNaoMeServeMais.mp3", "gradient": 4 }
 ]
